@@ -1,7 +1,7 @@
 Summary:	Mobile broadband modem management service
 Name:		ModemManager
 Version:	0.3
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Networking
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/ModemManager/0.3/%{name}-%{version}.tar.bz2
@@ -40,7 +40,7 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/ModemManager/*.{a,la}
-rm -f $RPM_BUILD_ROOT%{_libdir}/pppd/2.4.4/*.{a,la}
+rm -f $RPM_BUILD_ROOT%{_libdir}/pppd/*.*.*/*.{a,la}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -62,7 +62,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-option.so
 %attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-sierra.so
 %attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-zte.so
-%attr(755,root,root) %{_libdir}/pppd/2.4.4/mm-test-pppd-plugin.so
+%attr(755,root,root) %{_libdir}/pppd/*.*.*/mm-test-pppd-plugin.so
 /lib/udev/rules.d/77-mm-ericsson-mbm.rules
 /lib/udev/rules.d/77-mm-longcheer-port-types.rules
 /lib/udev/rules.d/77-mm-zte-port-types.rules
