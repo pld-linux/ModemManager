@@ -3,12 +3,12 @@
 #
 Summary:	Mobile broadband modem management service
 Name:		ModemManager
-Version:	0.3
-Release:	3
+Version:	0.3.997
+Release:	0.1
 License:	GPL v2
 Group:		Networking
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/ModemManager/0.3/%{name}-%{version}.tar.bz2
-# Source0-md5:	c617210a9e388841b8aa782cdd9b48a0
+# Source0-md5:	066893ab3f5a1daeb4fc1d420b96e48c
 URL:		http://www.gnome.org/projects/NetworkManager/
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake >= 1:1.9
@@ -54,6 +54,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_sbindir}/modem-manager
 %dir %{_libdir}/ModemManager
+%attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-anydata.so
 %attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-generic.so
 %attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-gobi.so
 %attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-hso.so
@@ -65,10 +66,17 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-novatel.so
 %attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-option.so
 %attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-sierra.so
+%attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-simtech.so
 %attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-zte.so
 %attr(755,root,root) %{_libdir}/pppd/%{ppp_version}/mm-test-pppd-plugin.so
 /lib/udev/rules.d/77-mm-ericsson-mbm.rules
 /lib/udev/rules.d/77-mm-longcheer-port-types.rules
+/lib/udev/rules.d/77-mm-pcmcia-device-blacklist.rules
+/lib/udev/rules.d/77-mm-platform-serial-whitelist.rules
+/lib/udev/rules.d/77-mm-simtech-port-types.rules
+/lib/udev/rules.d/77-mm-usb-device-blacklist.rules
 /lib/udev/rules.d/77-mm-zte-port-types.rules
 %config(noreplace) %verify(not md5 mtime size) /etc/dbus-1/system.d/org.freedesktop.ModemManager.conf
 %{_datadir}/dbus-1/system-services/org.freedesktop.ModemManager.service
+%{_datadir}/polkit-1/actions/org.freedesktop.modem-manager.policy
+%{_iconsdir}/hicolor/*/apps/*.png
