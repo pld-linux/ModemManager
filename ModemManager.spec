@@ -3,17 +3,19 @@
 #
 Summary:	Mobile broadband modem management service
 Name:		ModemManager
-Version:	0.3.997
+Version:	0.3.998
 Release:	0.1
 License:	GPL v2
 Group:		Networking
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/ModemManager/0.3/%{name}-%{version}.tar.bz2
-# Source0-md5:	066893ab3f5a1daeb4fc1d420b96e48c
+# Source0-md5:	0da710318e395ff1ba50a7ba224ef31d
 URL:		http://www.gnome.org/projects/NetworkManager/
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake >= 1:1.9
 BuildRequires:	dbus-glib-devel >= 0.75
+BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.18.0
+BuildRequires:	intltool
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	ppp-plugin-devel >= 3:%{ppp_version}
@@ -29,7 +31,7 @@ different modems, including mobile broadband (3G) devices.
 
 %build
 %{__libtoolize}
-%{__aclocal}
+%{__aclocal} -I m4
 %{__autoconf}
 %{__autoheader}
 %{__automake}
