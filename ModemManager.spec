@@ -1,10 +1,8 @@
-#
 %define		ppp_version	2.4.5
-#
 Summary:	Mobile broadband modem management service
 Name:		ModemManager
 Version:	0.4
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Networking
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/ModemManager/0.4/%{name}-%{version}.tar.bz2
@@ -36,7 +34,9 @@ different modems, including mobile broadband (3G) devices.
 %{__autoheader}
 %{__automake}
 %configure \
-	--with-pppd-plugin-dir=%{_libdir}/pppd/%{ppp_version}
+	--with-pppd-plugin-dir=%{_libdir}/pppd/%{ppp_version} \
+	--with-polkit \
+	--enable-more-warnings=yes
 %{__make}
 
 %install
