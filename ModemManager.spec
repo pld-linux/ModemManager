@@ -45,7 +45,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/ModemManager/*.{a,la}
+rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/*.{a,la}
 rm -f $RPM_BUILD_ROOT%{_libdir}/pppd/*.*.*/*.{a,la}
 
 %clean
@@ -56,20 +56,20 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_sbindir}/modem-manager
 %dir %{_libdir}/ModemManager
-%attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-anydata.so
-%attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-generic.so
-%attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-gobi.so
-%attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-hso.so
-%attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-huawei.so
-%attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-longcheer.so
-%attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-mbm.so
-%attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-moto-c.so
-%attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-nokia.so
-%attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-novatel.so
-%attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-option.so
-%attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-sierra.so
-%attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-simtech.so
-%attr(755,root,root) %{_libdir}/ModemManager/libmm-plugin-zte.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-anydata.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-generic.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-gobi.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-hso.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-huawei.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-longcheer.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-mbm.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-moto-c.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-nokia.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-novatel.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-option.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-sierra.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-simtech.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-zte.so
 %attr(755,root,root) %{_libdir}/pppd/%{ppp_version}/mm-test-pppd-plugin.so
 /lib/udev/rules.d/77-mm-ericsson-mbm.rules
 /lib/udev/rules.d/77-mm-longcheer-port-types.rules
