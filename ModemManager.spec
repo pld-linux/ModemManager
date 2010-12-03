@@ -7,6 +7,8 @@ License:	GPL v2
 Group:		Networking
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/ModemManager/0.4/%{name}-%{version}.tar.bz2
 # Source0-md5:	d4681f08e76cbb766522256144267ced
+Patch0:		67d936e46cedfa3f9621946ac02156e8c15990e3.patch
+Patch1:		be28089dc4c1b07d9def45a3c763f432ae8322c4.patch
 URL:		http://www.gnome.org/projects/NetworkManager/
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake >= 1:1.9
@@ -26,6 +28,8 @@ different modems, including mobile broadband (3G) devices.
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
 
 %build
 %{__libtoolize}
