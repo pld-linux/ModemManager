@@ -18,6 +18,7 @@ BuildRequires:	glib2-devel >= 1:2.18.0
 BuildRequires:	intltool
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
+BuildRequires:	polkit-devel
 BuildRequires:	ppp-plugin-devel >= 3:%{ppp_version}
 BuildRequires:	udev-glib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
