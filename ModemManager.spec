@@ -1,14 +1,12 @@
 %define		ppp_version	2.4.5
 Summary:	Mobile broadband modem management service
 Name:		ModemManager
-Version:	0.4
-Release:	2
+Version:	0.5
+Release:	1
 License:	GPL v2
 Group:		Networking
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/ModemManager/0.4/%{name}-%{version}.tar.bz2
-# Source0-md5:	d4681f08e76cbb766522256144267ced
-Patch0:		67d936e46cedfa3f9621946ac02156e8c15990e3.patch
-Patch1:		be28089dc4c1b07d9def45a3c763f432ae8322c4.patch
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/ModemManager/0.5/%{name}-%{version}.tar.bz2
+# Source0-md5:	cd04109506e88bf4c4cd3e7ce0034c08
 URL:		http://www.gnome.org/projects/NetworkManager/
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake >= 1:1.9
@@ -29,8 +27,6 @@ different modems, including mobile broadband (3G) devices.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
 
 %build
 %{__libtoolize}
@@ -41,7 +37,8 @@ different modems, including mobile broadband (3G) devices.
 %configure \
 	--with-pppd-plugin-dir=%{_libdir}/pppd/%{ppp_version} \
 	--with-polkit \
-	--enable-more-warnings=yes
+	--enable-more-warnings=yes \
+	--disable-silent-rules
 %{__make}
 
 %install
@@ -66,14 +63,18 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-gobi.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-hso.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-huawei.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-linktop.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-longcheer.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-mbm.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-moto-c.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-nokia.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-novatel.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-option.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-samsung.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-sierra.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-simtech.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-wavecom.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-x22x.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-zte.so
 %attr(755,root,root) %{_libdir}/pppd/%{ppp_version}/mm-test-pppd-plugin.so
 /lib/udev/rules.d/77-mm-ericsson-mbm.rules
@@ -82,8 +83,27 @@ rm -rf $RPM_BUILD_ROOT
 /lib/udev/rules.d/77-mm-platform-serial-whitelist.rules
 /lib/udev/rules.d/77-mm-simtech-port-types.rules
 /lib/udev/rules.d/77-mm-usb-device-blacklist.rules
+/lib/udev/rules.d/77-mm-x22x-port-types.rules
 /lib/udev/rules.d/77-mm-zte-port-types.rules
+/lib/udev/rules.d/80-mm-candidate.rules
 %config(noreplace) %verify(not md5 mtime size) /etc/dbus-1/system.d/org.freedesktop.ModemManager.conf
+%{_datadir}/dbus-1/interfaces/mm-mobile-error.xml
+%{_datadir}/dbus-1/interfaces/mm-modem-connect-error.xml
+%{_datadir}/dbus-1/interfaces/mm-modem-error.xml
+%{_datadir}/dbus-1/interfaces/mm-serial-error.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.DBus.Properties.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Cdma.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Gsm.Card.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Gsm.Contacts.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Gsm.Hso.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Gsm.Network.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Gsm.SMS.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Gsm.Ussd.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Gsm.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Location.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Simple.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.xml
 %{_datadir}/dbus-1/system-services/org.freedesktop.ModemManager.service
 %{_datadir}/polkit-1/actions/org.freedesktop.modem-manager.policy
 %{_iconsdir}/hicolor/*/apps/*.png
