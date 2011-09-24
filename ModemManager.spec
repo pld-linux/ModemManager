@@ -1,29 +1,49 @@
 %define		ppp_version	2.4.5
 Summary:	Mobile broadband modem management service
+Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
 Version:	0.5
 Release:	1
-License:	GPL v2
+License:	GPL v2+
 Group:		Networking
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/ModemManager/0.5/%{name}-%{version}.tar.bz2
 # Source0-md5:	cd04109506e88bf4c4cd3e7ce0034c08
 URL:		http://www.gnome.org/projects/NetworkManager/
-BuildRequires:	autoconf >= 2.52
+BuildRequires:	autoconf >= 2.60
 BuildRequires:	automake >= 1:1.9
 BuildRequires:	dbus-glib-devel >= 0.86
 BuildRequires:	gettext-devel
-BuildRequires:	glib2-devel >= 1:2.18.0
-BuildRequires:	intltool
-BuildRequires:	libtool
+BuildRequires:	glib2-devel >= 1:2.18
+BuildRequires:	intltool >= 0.35.0
+BuildRequires:	libtool >= 2:2.2
 BuildRequires:	pkgconfig
-BuildRequires:	polkit-devel
+BuildRequires:	polkit-devel >= 0.95
 BuildRequires:	ppp-plugin-devel >= 3:%{ppp_version}
 BuildRequires:	udev-glib-devel
+Requires:	dbus-glib >= 0.86
+Requires:	glib2 >= 1:2.18
+Requires:	polkit >= 0.95
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 The ModemManager service provides a consistent API to operate many
 different modems, including mobile broadband (3G) devices.
+
+%description -l pl.UTF-8
+Usługa ModemManager zapewnia spójne API do obsługi wielu różnych
+modemów, w tym szerokopasmowych modemów komórkowych (3G).
+
+%package devel
+Summary:	Header file defining ModemManager D-Bus interface
+Summary(pl.UTF-8):	Plik nagłówkowy opisujący interfejs D-Bus ModemManagera
+Group:		Development/Libraries
+# doesn't require base
+
+%description devel
+Header file defining ModemManager D-Bus interface.
+
+%description devel -l pl.UTF-8
+Plik nagłówkowy opisujący interfejs D-Bus ModemManagera.
 
 %prep
 %setup -q
@@ -35,10 +55,11 @@ different modems, including mobile broadband (3G) devices.
 %{__autoheader}
 %{__automake}
 %configure \
-	--with-pppd-plugin-dir=%{_libdir}/pppd/%{ppp_version} \
+	--disable-silent-rules \
+	--disable-static \
+	--enable-more-warnings \
 	--with-polkit \
-	--enable-more-warnings=yes \
-	--disable-silent-rules
+	--with-pppd-plugin-dir=%{_libdir}/pppd/%{ppp_version}
 %{__make}
 
 %install
@@ -47,8 +68,8 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/*.{a,la}
-rm -f $RPM_BUILD_ROOT%{_libdir}/pppd/*.*.*/*.{a,la}
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/*.la
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/pppd/*.*.*/*.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -107,3 +128,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/system-services/org.freedesktop.ModemManager.service
 %{_datadir}/polkit-1/actions/org.freedesktop.modem-manager.policy
 %{_iconsdir}/hicolor/*/apps/*.png
+
+%files devel
+%defattr(644,root,root,755)
+%{_includedir}/mm
