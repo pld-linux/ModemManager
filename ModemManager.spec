@@ -2,12 +2,12 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	0.5
+Version:	0.5.2.0
 Release:	1
 License:	GPL v2+
 Group:		Networking
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/ModemManager/0.5/%{name}-%{version}.tar.bz2
-# Source0-md5:	cd04109506e88bf4c4cd3e7ce0034c08
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/ModemManager/0.5/%{name}-%{version}.tar.xz
+# Source0-md5:	a4da11ad17f937156c30b08a29cee13f
 URL:		http://www.gnome.org/projects/NetworkManager/
 BuildRequires:	autoconf >= 2.60
 BuildRequires:	automake >= 1:1.9
@@ -19,9 +19,12 @@ BuildRequires:	libtool >= 2:2.2
 BuildRequires:	pkgconfig
 BuildRequires:	polkit-devel >= 0.95
 BuildRequires:	ppp-plugin-devel >= 3:%{ppp_version}
+BuildRequires:	tar >= 1:1.22
 BuildRequires:	udev-glib-devel
+BuildRequires:	xz
 Requires:	dbus-glib >= 0.86
 Requires:	glib2 >= 1:2.18
+Requires:	hicolor-icon-theme
 Requires:	polkit >= 0.95
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -74,6 +77,12 @@ rm -rf $RPM_BUILD_ROOT
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+%update_icon_cache hicolor
+
+%postun
+%update_icon_cache hicolor
+
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
@@ -100,6 +109,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/pppd/%{ppp_version}/mm-test-pppd-plugin.so
 /lib/udev/rules.d/77-mm-ericsson-mbm.rules
 /lib/udev/rules.d/77-mm-longcheer-port-types.rules
+/lib/udev/rules.d/77-mm-nokia-port-types.rules
 /lib/udev/rules.d/77-mm-pcmcia-device-blacklist.rules
 /lib/udev/rules.d/77-mm-platform-serial-whitelist.rules
 /lib/udev/rules.d/77-mm-simtech-port-types.rules
@@ -112,7 +122,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/interfaces/mm-modem-connect-error.xml
 %{_datadir}/dbus-1/interfaces/mm-modem-error.xml
 %{_datadir}/dbus-1/interfaces/mm-serial-error.xml
-%{_datadir}/dbus-1/interfaces/org.freedesktop.DBus.Properties.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Cdma.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Gsm.Card.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Gsm.Contacts.xml
