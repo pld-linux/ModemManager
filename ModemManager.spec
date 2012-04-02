@@ -1,9 +1,8 @@
-%define		ppp_version	2.4.5
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
 Version:	0.5.2.0
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Networking
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/ModemManager/0.5/%{name}-%{version}.tar.xz
@@ -18,7 +17,7 @@ BuildRequires:	intltool >= 0.35.0
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	pkgconfig
 BuildRequires:	polkit-devel >= 0.95
-BuildRequires:	ppp-plugin-devel >= 3:%{ppp_version}
+BuildRequires:	ppp-plugin-devel >= 3:2.4.5
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	udev-glib-devel
 BuildRequires:	xz
@@ -62,7 +61,7 @@ Plik nagłówkowy opisujący interfejs D-Bus ModemManagera.
 	--disable-static \
 	--enable-more-warnings \
 	--with-polkit \
-	--with-pppd-plugin-dir=%{_libdir}/pppd/%{ppp_version}
+	--with-pppd-plugin-dir=%{_libdir}/pppd/plugins
 %{__make}
 
 %install
@@ -106,7 +105,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-wavecom.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-x22x.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-zte.so
-%attr(755,root,root) %{_libdir}/pppd/%{ppp_version}/mm-test-pppd-plugin.so
+%attr(755,root,root) %{_libdir}/pppd/plugins/mm-test-pppd-plugin.so
 /lib/udev/rules.d/77-mm-ericsson-mbm.rules
 /lib/udev/rules.d/77-mm-longcheer-port-types.rules
 /lib/udev/rules.d/77-mm-nokia-port-types.rules
