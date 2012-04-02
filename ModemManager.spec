@@ -2,7 +2,7 @@ Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
 Version:	0.5.2.0
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		Networking
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/ModemManager/0.5/%{name}-%{version}.tar.xz
@@ -71,7 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/*.la
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/pppd/*.*.*/*.la
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/pppd/%{plugins}/*.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
