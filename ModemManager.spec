@@ -1,12 +1,12 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	0.5.2.0
-Release:	4
+Version:	0.6.0.0
+Release:	1
 License:	GPL v2+
 Group:		Networking
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/ModemManager/0.5/%{name}-%{version}.tar.xz
-# Source0-md5:	a4da11ad17f937156c30b08a29cee13f
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/ModemManager/0.6/%{name}-%{version}.tar.xz
+# Source0-md5:	f32640f6672d997ec0887307186e9639
 URL:		http://www.gnome.org/projects/NetworkManager/
 BuildRequires:	autoconf >= 2.60
 BuildRequires:	automake >= 1:1.9
@@ -88,10 +88,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_sbindir}/modem-manager
 %dir %{_libdir}/ModemManager
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-anydata.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-cinterion.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-generic.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-gobi.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-hso.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-huawei.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-iridium.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-linktop.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-longcheer.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-mbm.so
@@ -122,6 +124,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/interfaces/mm-modem-error.xml
 %{_datadir}/dbus-1/interfaces/mm-serial-error.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Cdma.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Firmware.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Gsm.Card.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Gsm.Contacts.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Gsm.Hso.xml
@@ -131,6 +134,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Gsm.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Location.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Simple.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.Time.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.Modem.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager.xml
 %{_datadir}/dbus-1/system-services/org.freedesktop.ModemManager.service
