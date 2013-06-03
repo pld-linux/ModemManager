@@ -1,12 +1,12 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	0.6.0.0
+Version:	0.6.2.0
 Release:	1
 License:	GPL v2+
 Group:		Networking
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/ModemManager/0.6/%{name}-%{version}.tar.xz
-# Source0-md5:	f32640f6672d997ec0887307186e9639
+# Source0-md5:	29f97defbf9429f648c888a42732a955
 URL:		http://www.gnome.org/projects/NetworkManager/
 BuildRequires:	autoconf >= 2.60
 BuildRequires:	automake >= 1:1.9
@@ -104,6 +104,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-samsung.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-sierra.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-simtech.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-via.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-wavecom.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-x22x.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-zte.so
