@@ -14,7 +14,7 @@ Source0:	http://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar
 URL:		http://www.freedesktop.org/wiki/Software/ModemManager
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.9
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-devel >= 0.17
 BuildRequires:	glib2-devel >= 1:2.32.0
 BuildRequires:	gtk-doc
 BuildRequires:	intltool >= 0.40.0
@@ -25,13 +25,16 @@ BuildRequires:	pkgconfig
 BuildRequires:	polkit-devel >= 0.97
 BuildRequires:	ppp-plugin-devel >= 3:2.4.5
 BuildRequires:	tar >= 1:1.22
-BuildRequires:	udev-glib-devel >= 147
+BuildRequires:	udev-glib-devel >= 1:147
 BuildRequires:	xz
 Requires(post,preun,postun):	systemd-units
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	glib2 >= 1:2.32.0
 Requires:	hicolor-icon-theme
+Requires:	libmbim >= 1.4
+Requires:	libqmi >= 1.4
 Requires:	polkit >= 0.97
+Requires:	udev-glib >= 1:147
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
