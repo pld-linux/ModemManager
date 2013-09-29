@@ -6,7 +6,7 @@ Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
 Version:	1.0.0
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Networking
 Source0:	http://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar.xz
