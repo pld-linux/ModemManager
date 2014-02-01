@@ -5,17 +5,18 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	1.0.0
-Release:	2
+Version:	1.2.0
+Release:	1
 License:	GPL v2+
 Group:		Networking
 Source0:	http://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar.xz
-# Source0-md5:	bb59fda111d8e1038b02ed7e57efe83a
+# Source0-md5:	6e70ab7c5f96aa6a4d5612c1d5ae5bb3
 URL:		http://www.freedesktop.org/wiki/Software/ModemManager
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.9
 BuildRequires:	gettext-devel >= 0.17
 BuildRequires:	glib2-devel >= 1:2.32.0
+BuildRequires:	gobject-introspection-devel >= 0.9.6
 BuildRequires:	gtk-doc
 BuildRequires:	intltool >= 0.40.0
 BuildRequires:	libmbim-devel >= 1.4
@@ -26,6 +27,7 @@ BuildRequires:	polkit-devel >= 0.97
 BuildRequires:	ppp-plugin-devel >= 3:2.4.5
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	udev-glib-devel >= 1:147
+BuildRequires:	vala >= 2:0.18.0
 BuildRequires:	xz
 Requires(post,preun,postun):	systemd-units
 Requires:	%{name}-libs = %{version}-%{release}
@@ -83,6 +85,19 @@ API documentation for ModemManager.
 %description apidocs -l pl.UTF-8
 Dokumentacja API biblioteki ModemManagera.
 
+%package -n vala-libmm-glib
+Summary:        libmm-glib API for Vala language
+Summary(pl.UTF-8):      API libmm-glib dla języka Vala
+Group:          Development/Libraries
+Requires:       %{name}-devel = %{version}-%{release}
+Requires:       vala >= 2:0.18.0
+
+%description -n vala-libmm-glib
+libmm-glib API for Vala language.
+
+%description -n vala-libmm-glib -l pl.UTF-8
+API libmm-glib dla języka Vala.
+
 %prep
 %setup -q
 
@@ -97,6 +112,7 @@ Dokumentacja API biblioteki ModemManagera.
 	--disable-silent-rules \
 	--disable-static \
 	--enable-more-warnings \
+	--enable-vala \
 	--with-html-dir=%{_gtkdocdir} \
 	--with-polkit
 %{__make}
@@ -144,6 +160,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-linktop.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-longcheer.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-mbm.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-mtk.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-motorola.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-nokia-icera.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-nokia.so
@@ -162,10 +179,12 @@ rm -rf $RPM_BUILD_ROOT
 /lib/udev/rules.d/77-mm-ericsson-mbm.rules
 /lib/udev/rules.d/77-mm-huawei-net-port-types.rules
 /lib/udev/rules.d/77-mm-longcheer-port-types.rules
+/lib/udev/rules.d/77-mm-mtk-port-types.rules
 /lib/udev/rules.d/77-mm-nokia-port-types.rules
 /lib/udev/rules.d/77-mm-pcmcia-device-blacklist.rules
 /lib/udev/rules.d/77-mm-platform-serial-whitelist.rules
 /lib/udev/rules.d/77-mm-simtech-port-types.rules
+/lib/udev/rules.d/77-mm-telit-port-types.rules
 /lib/udev/rules.d/77-mm-usb-device-blacklist.rules
 /lib/udev/rules.d/77-mm-usb-serial-adapters-greylist.rules
 /lib/udev/rules.d/77-mm-x22x-port-types.rules
@@ -179,7 +198,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Modem3gpp.Ussd.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Modem3gpp.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.ModemCdma.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Oma.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Simple.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Signal.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Time.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Sim.xml
@@ -197,6 +218,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libmm-glib.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libmm-glib.so.0
+%{_libdir}/girepository-1.0/ModemManager-1.0.typelib
 
 %files devel
 %defattr(644,root,root,755)
@@ -205,8 +227,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/libmm-glib
 %{_pkgconfigdir}/ModemManager.pc
 %{_pkgconfigdir}/mm-glib.pc
+%{_datadir}/gir-1.0/ModemManager-1.0.gir
 
 %files apidocs
 %defattr(644,root,root,755)
 %{_gtkdocdir}/ModemManager
 %{_gtkdocdir}/libmm-glib
+
+%files -n vala-libmm-glib
+%defattr(644,root,root,755)
+%{_datadir}/vala/vapi/libmm-glib.deps
+%{_datadir}/vala/vapi/libmm-glib.vapi
