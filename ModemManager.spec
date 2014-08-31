@@ -5,22 +5,22 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	1.2.0
+Version:	1.4.0
 Release:	1
 License:	GPL v2+
 Group:		Networking
 Source0:	http://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar.xz
-# Source0-md5:	6e70ab7c5f96aa6a4d5612c1d5ae5bb3
+# Source0-md5:	4f78b31c23828dc1037352d6dbb608db
 URL:		http://www.freedesktop.org/wiki/Software/ModemManager
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.9
 BuildRequires:	gettext-devel >= 0.17
 BuildRequires:	glib2-devel >= 1:2.32.0
 BuildRequires:	gobject-introspection-devel >= 0.9.6
-BuildRequires:	gtk-doc
+BuildRequires:	gtk-doc >= 1.0
 BuildRequires:	intltool >= 0.40.0
-BuildRequires:	libmbim-devel >= 1.4
-BuildRequires:	libqmi-devel >= 1.4
+BuildRequires:	libmbim-devel >= 1.10
+BuildRequires:	libqmi-devel >= 1.6
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	pkgconfig
 BuildRequires:	polkit-devel >= 0.97
@@ -33,8 +33,8 @@ Requires(post,preun,postun):	systemd-units
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	glib2 >= 1:2.32.0
 Requires:	hicolor-icon-theme
-Requires:	libmbim >= 1.4
-Requires:	libqmi >= 1.4
+Requires:	libmbim >= 1.10
+Requires:	libqmi >= 1.6
 Requires:	polkit >= 0.97
 Requires:	udev-glib >= 1:147
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -126,6 +126,8 @@ rm -rf $RPM_BUILD_ROOT
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/*.la
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/*.la
 
+%find_lang %{name}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -140,10 +142,10 @@ rm -rf $RPM_BUILD_ROOT
 %update_icon_cache hicolor
 %systemd_reload
 
-%post libs -p /sbin/ldconfig
-%postun libs -p /sbin/ldconfig
+%post	libs -p /sbin/ldconfig
+%postun	libs -p /sbin/ldconfig
 
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/mmcli
@@ -176,6 +178,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-wavecom.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-x22x.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-zte.so
+/lib/udev/rules.d/77-mm-cinterion-port-types.rules
 /lib/udev/rules.d/77-mm-ericsson-mbm.rules
 /lib/udev/rules.d/77-mm-huawei-net-port-types.rules
 /lib/udev/rules.d/77-mm-longcheer-port-types.rules
