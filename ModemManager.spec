@@ -14,7 +14,7 @@ Source0:	http://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar
 URL:		http://www.freedesktop.org/wiki/Software/ModemManager
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.9
-BuildRequires:	gettext-devel >= 0.17
+BuildRequires:	gettext-tools >= 0.17
 BuildRequires:	glib2-devel >= 1:2.32.0
 BuildRequires:	gobject-introspection-devel >= 0.9.6
 BuildRequires:	gtk-doc >= 1.0
