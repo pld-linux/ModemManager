@@ -5,12 +5,12 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	1.4.2
+Version:	1.4.4
 Release:	1
 License:	GPL v2+
 Group:		Networking
 Source0:	http://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar.xz
-# Source0-md5:	fe74eaa9a77e51e552b4356b4c7195cb
+# Source0-md5:	248954c98df0002591506753b8011aa9
 URL:		http://www.freedesktop.org/wiki/Software/ModemManager
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.9
@@ -20,7 +20,7 @@ BuildRequires:	gobject-introspection-devel >= 0.9.6
 BuildRequires:	gtk-doc >= 1.0
 BuildRequires:	intltool >= 0.40.0
 BuildRequires:	libmbim-devel >= 1.10
-BuildRequires:	libqmi-devel >= 1.6
+BuildRequires:	libqmi-devel >= 1.12.4
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	pkgconfig
 BuildRequires:	polkit-devel >= 0.97
@@ -34,7 +34,7 @@ Requires:	%{name}-libs = %{version}-%{release}
 Requires:	glib2 >= 1:2.32.0
 Requires:	hicolor-icon-theme
 Requires:	libmbim >= 1.10
-Requires:	libqmi >= 1.6
+Requires:	libqmi >= 1.12.4
 Requires:	polkit >= 0.97
 Requires:	udev-glib >= 1:147
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
