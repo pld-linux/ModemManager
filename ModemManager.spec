@@ -1,12 +1,12 @@
 #
 # Conditional build:
 %bcond_without	apidocs		# don't build API documentation
-#
+
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
 Version:	1.4.8
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Networking
 Source0:	http://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar.xz
@@ -78,6 +78,9 @@ Summary:	API documentation for ModemManager
 Summary(pl.UTF-8):	Dokumentacja API ModemManagera
 Group:		Documentation
 Requires:	gtk-doc-common
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
 
 %description apidocs
 API documentation for ModemManager.
@@ -86,11 +89,11 @@ API documentation for ModemManager.
 Dokumentacja API biblioteki ModemManagera.
 
 %package -n vala-libmm-glib
-Summary:        libmm-glib API for Vala language
-Summary(pl.UTF-8):      API libmm-glib dla języka Vala
-Group:          Development/Libraries
-Requires:       %{name}-devel = %{version}-%{release}
-Requires:       vala >= 2:0.18.0
+Summary:	libmm-glib API for Vala language
+Summary(pl.UTF-8):	API libmm-glib dla języka Vala
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+Requires:	vala >= 2:0.18.0
 
 %description -n vala-libmm-glib
 libmm-glib API for Vala language.
