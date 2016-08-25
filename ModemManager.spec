@@ -5,36 +5,38 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	1.4.14
+Version:	1.6.0
 Release:	1
 License:	GPL v2+
 Group:		Networking
 Source0:	https://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar.xz
-# Source0-md5:	cabb72e7c2ddf6af96eca2c9f3d168a3
+# Source0-md5:	d9d93d2961ee35b4cd8a75a6a8631cb4
 URL:		https://www.freedesktop.org/wiki/Software/ModemManager
 BuildRequires:	autoconf >= 2.63
-BuildRequires:	automake >= 1:1.9
-BuildRequires:	gettext-tools >= 0.17
-BuildRequires:	glib2-devel >= 1:2.32.0
+BuildRequires:	automake >= 1:1.11
+BuildRequires:	gettext-tools >= 0.19.3
+BuildRequires:	glib2-devel >= 1:2.36.0
 BuildRequires:	gobject-introspection-devel >= 0.9.6
 BuildRequires:	gtk-doc >= 1.0
 BuildRequires:	intltool >= 0.40.0
-BuildRequires:	libmbim-devel >= 1.10
-BuildRequires:	libqmi-devel >= 1.12.4
+BuildRequires:	libmbim-devel >= 1.14.0
+BuildRequires:	libqmi-devel >= 1.16.0
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	pkgconfig
 BuildRequires:	polkit-devel >= 0.97
 BuildRequires:	ppp-plugin-devel >= 3:2.4.5
+BuildRequires:	rpmbuild(macros) >= 1.673
+BuildRequires:	systemd-devel >= 1:209
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	udev-glib-devel >= 1:147
 BuildRequires:	vala >= 2:0.18.0
 BuildRequires:	xz
 Requires(post,preun,postun):	systemd-units
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	glib2 >= 1:2.32.0
+Requires:	glib2 >= 1:2.36.0
 Requires:	hicolor-icon-theme
-Requires:	libmbim >= 1.10
-Requires:	libqmi >= 1.12.4
+Requires:	libmbim >= 1.14.0
+Requires:	libqmi >= 1.16.0
 Requires:	polkit >= 0.97
 Requires:	udev-glib >= 1:147
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -47,11 +49,24 @@ different modems, including mobile broadband (3G) devices.
 Usługa ModemManager zapewnia spójne API do obsługi wielu różnych
 modemów, w tym szerokopasmowych modemów komórkowych (3G).
 
+%package -n bash-completion-ModemManager
+Summary:	Bash completion for ModemManager commands
+Summary(pl.UTF-8):	Dopełnianie składni poleceń ModemManagera
+Group:		Applications/Shells
+Requires:	%{name} = %{version}-%{release}
+Requires:	bash-completion >= 2.0
+
+%description -n bash-completion-ModemManager
+Bash completion for ModemManager commands (mmcli).
+
+%description -n bash-completion-ModemManager -l pl.UTF-8
+Dopełnianie składni poleceń ModemManagera (mmcli).
+
 %package libs
 Summary:	Library to control and monitor the ModemManager
 Summary(pl.UTF-8):	Biblioteka do sterowania i monitorowania ModemManagera
 Group:		Libraries
-Requires:	glib2 >= 1:2.32.0
+Requires:	glib2 >= 1:2.36.0
 
 %description libs
 This package provides library to control and monitor the ModemManager.
@@ -65,7 +80,7 @@ Summary:	Header file defining ModemManager D-Bus interface
 Summary(pl.UTF-8):	Plik nagłówkowy opisujący interfejs D-Bus ModemManagera
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.32.0
+Requires:	glib2-devel >= 1:2.36.0
 
 %description devel
 Header file defining ModemManager D-Bus interface.
@@ -120,7 +135,8 @@ API libmm-glib dla języka Vala.
 	--enable-more-warnings \
 	--enable-vala \
 	--with-html-dir=%{_gtkdocdir} \
-	--with-polkit
+	--with-polkit \
+	--with-suspend-resume=systemd
 %{__make}
 
 %install
@@ -160,32 +176,37 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-altair-lte.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-anydata.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-cinterion.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-dell.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-ericsson-mbm.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-generic.so
-%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-gobi.so
-%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-hso.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-haier.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-huawei.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-iridium.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-linktop.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-longcheer.so
-%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-mbm.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-option-hso.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-mtk.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-motorola.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-nokia-icera.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-nokia.so
-%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-novatel-lte.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-novatel.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-novatel_lte.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-option.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-pantech.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-samsung.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-sierra.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-sierra-legacy.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-simtech.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-telit.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-thuraya.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-via.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-wavecom.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-x22x.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-zte.so
 /lib/udev/rules.d/77-mm-cinterion-port-types.rules
+/lib/udev/rules.d/77-mm-dell-port-types.rules
 /lib/udev/rules.d/77-mm-ericsson-mbm.rules
+/lib/udev/rules.d/77-mm-haier-port-types.rules
 /lib/udev/rules.d/77-mm-huawei-net-port-types.rules
 /lib/udev/rules.d/77-mm-longcheer-port-types.rules
 /lib/udev/rules.d/77-mm-mtk-port-types.rules
@@ -201,6 +222,7 @@ rm -rf $RPM_BUILD_ROOT
 /lib/udev/rules.d/80-mm-candidate.rules
 %config(noreplace) %verify(not md5 mtime size) /etc/dbus-1/system.d/org.freedesktop.ModemManager1.conf
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Bearer.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Call.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Firmware.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Location.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Messaging.xml
@@ -211,6 +233,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Simple.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Signal.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Time.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Voice.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Sim.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Sms.xml
@@ -222,6 +245,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/ModemManager.8*
 %{_mandir}/man8/mmcli.8*
 %{systemdunitdir}/ModemManager.service
+
+%files -n bash-completion-ModemManager
+%defattr(644,root,root,755)
+%{bash_compdir}/mmcli
 
 %files libs
 %defattr(644,root,root,755)
