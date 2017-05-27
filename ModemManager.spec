@@ -5,12 +5,12 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	1.6.4
+Version:	1.6.6
 Release:	1
 License:	GPL v2+
 Group:		Networking
 Source0:	https://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar.xz
-# Source0-md5:	06488186c7dd53f8104183b86f7a1568
+# Source0-md5:	99a46bd34ce65f8c18bd48994982922e
 URL:		https://www.freedesktop.org/wiki/Software/ModemManager
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
@@ -238,7 +238,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Sim.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Sms.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.xml
-%{_datadir}/dbus-1/interfaces/wip-org.freedesktop.ModemManager1.Modem.Contacts.xml
 %{_datadir}/dbus-1/system-services/org.freedesktop.ModemManager1.service
 %{_datadir}/polkit-1/actions/org.freedesktop.ModemManager1.policy
 %{_iconsdir}/hicolor/*/apps/*.png
