@@ -5,17 +5,20 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	1.6.8
+Version:	1.6.10
 Release:	1
 License:	GPL v2+
 Group:		Networking
 Source0:	https://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar.xz
-# Source0-md5:	ac08d539ec3dc35db8d6b7c8d6c660ff
+# Source0-md5:	67160b94c0eda90ebf95d1b620229ca1
 URL:		https://www.freedesktop.org/wiki/Software/ModemManager
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	gettext-tools >= 0.19.3
 BuildRequires:	glib2-devel >= 1:2.36.0
+%if %(locale -a | grep -q '^C\.UTF-8$'; echo $?)
+BuildRequires:	glibc-localedb-all
+%endif
 BuildRequires:	gobject-introspection-devel >= 0.9.6
 BuildRequires:	gtk-doc >= 1.0
 BuildRequires:	intltool >= 0.40.0
@@ -137,6 +140,8 @@ API libmm-glib dla języka Vala.
 	--with-html-dir=%{_gtkdocdir} \
 	--with-polkit \
 	--with-suspend-resume=systemd
+
+LC_ALL=C.UTF-8 \
 %{__make}
 
 %install
@@ -212,7 +217,6 @@ rm -rf $RPM_BUILD_ROOT
 /lib/udev/rules.d/77-mm-mtk-port-types.rules
 /lib/udev/rules.d/77-mm-nokia-port-types.rules
 /lib/udev/rules.d/77-mm-pcmcia-device-blacklist.rules
-/lib/udev/rules.d/77-mm-platform-serial-whitelist.rules
 /lib/udev/rules.d/77-mm-simtech-port-types.rules
 /lib/udev/rules.d/77-mm-telit-port-types.rules
 /lib/udev/rules.d/77-mm-usb-device-blacklist.rules
