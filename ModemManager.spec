@@ -5,25 +5,25 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	1.6.12
+Version:	1.8.2
 Release:	1
 License:	GPL v2+
 Group:		Networking
 Source0:	https://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar.xz
-# Source0-md5:	d21c280220ee647e62eeb4e1df642fe3
+# Source0-md5:	a49c9f73e46c7b89e5efedda250d22c0
 URL:		https://www.freedesktop.org/wiki/Software/ModemManager
 BuildRequires:	autoconf >= 2.63
-BuildRequires:	automake >= 1:1.11
-BuildRequires:	gettext-tools >= 0.19.3
+BuildRequires:	automake >= 1:1.11.2
+BuildRequires:	gettext-tools >= 0.19.8
 BuildRequires:	glib2-devel >= 1:2.36.0
-%if %(locale -a | grep -q '^C\.UTF-8$'; echo $?)
+%if %(locale -a | grep -q '^C\.utf8$'; echo $?)
 BuildRequires:	glibc-localedb-all
 %endif
 BuildRequires:	gobject-introspection-devel >= 0.9.6
 BuildRequires:	gtk-doc >= 1.0
 BuildRequires:	intltool >= 0.40.0
-BuildRequires:	libmbim-devel >= 1.14.0
-BuildRequires:	libqmi-devel >= 1.16.0
+BuildRequires:	libmbim-devel >= 1.16.0
+BuildRequires:	libqmi-devel >= 1.20.0
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	pkgconfig
 BuildRequires:	polkit-devel >= 0.97
@@ -38,8 +38,8 @@ Requires(post,preun,postun):	systemd-units
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	glib2 >= 1:2.36.0
 Requires:	hicolor-icon-theme
-Requires:	libmbim >= 1.14.0
-Requires:	libqmi >= 1.16.0
+Requires:	libmbim >= 1.16.0
+Requires:	libqmi >= 1.20.0
 Requires:	polkit >= 0.97
 Requires:	udev-glib >= 1:147
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -195,15 +195,17 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-nokia-icera.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-nokia.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-novatel.so
-%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-novatel_lte.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-novatel-lte.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-option.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-pantech.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-quectel.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-samsung.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-sierra.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-sierra-legacy.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-simtech.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-telit.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-thuraya.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-ublox.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-via.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-wavecom.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-x22x.so
@@ -217,8 +219,10 @@ rm -rf $RPM_BUILD_ROOT
 /lib/udev/rules.d/77-mm-mtk-port-types.rules
 /lib/udev/rules.d/77-mm-nokia-port-types.rules
 /lib/udev/rules.d/77-mm-pcmcia-device-blacklist.rules
+/lib/udev/rules.d/77-mm-sierra.rules
 /lib/udev/rules.d/77-mm-simtech-port-types.rules
 /lib/udev/rules.d/77-mm-telit-port-types.rules
+/lib/udev/rules.d/77-mm-ublox-port-types.rules
 /lib/udev/rules.d/77-mm-usb-device-blacklist.rules
 /lib/udev/rules.d/77-mm-usb-serial-adapters-greylist.rules
 /lib/udev/rules.d/77-mm-x22x-port-types.rules
@@ -245,8 +249,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/system-services/org.freedesktop.ModemManager1.service
 %{_datadir}/polkit-1/actions/org.freedesktop.ModemManager1.policy
 %{_iconsdir}/hicolor/*/apps/*.png
+%{_mandir}/man1/mmcli.1*
 %{_mandir}/man8/ModemManager.8*
-%{_mandir}/man8/mmcli.8*
 %{systemdunitdir}/ModemManager.service
 
 %files -n bash-completion-ModemManager
