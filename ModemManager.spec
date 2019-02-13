@@ -5,12 +5,12 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	1.8.2
+Version:	1.10.0
 Release:	1
 License:	GPL v2+
 Group:		Networking
 Source0:	https://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar.xz
-# Source0-md5:	a49c9f73e46c7b89e5efedda250d22c0
+# Source0-md5:	92d25176d0cc9d588ca29700b33c7d98
 URL:		https://www.freedesktop.org/wiki/Software/ModemManager
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11.2
@@ -21,9 +21,8 @@ BuildRequires:	glibc-localedb-all
 %endif
 BuildRequires:	gobject-introspection-devel >= 0.9.6
 BuildRequires:	gtk-doc >= 1.0
-BuildRequires:	intltool >= 0.40.0
-BuildRequires:	libmbim-devel >= 1.16.0
-BuildRequires:	libqmi-devel >= 1.20.0
+BuildRequires:	libmbim-devel >= 1.18.0
+BuildRequires:	libqmi-devel >= 1.22.0
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	pkgconfig
 BuildRequires:	polkit-devel >= 0.97
@@ -38,8 +37,8 @@ Requires(post,preun,postun):	systemd-units
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	glib2 >= 1:2.36.0
 Requires:	hicolor-icon-theme
-Requires:	libmbim >= 1.16.0
-Requires:	libqmi >= 1.20.0
+Requires:	libmbim >= 1.18.0
+Requires:	libqmi >= 1.22.0
 Requires:	polkit >= 0.97
 Requires:	udev-glib >= 1:147
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -183,6 +182,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-cinterion.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-dell.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-ericsson-mbm.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-fibocom.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-generic.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-haier.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-huawei.so
@@ -213,6 +213,7 @@ rm -rf $RPM_BUILD_ROOT
 /lib/udev/rules.d/77-mm-cinterion-port-types.rules
 /lib/udev/rules.d/77-mm-dell-port-types.rules
 /lib/udev/rules.d/77-mm-ericsson-mbm.rules
+/lib/udev/rules.d/77-mm-fibocom-port-types.rules
 /lib/udev/rules.d/77-mm-haier-port-types.rules
 /lib/udev/rules.d/77-mm-huawei-net-port-types.rules
 /lib/udev/rules.d/77-mm-longcheer-port-types.rules
