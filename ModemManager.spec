@@ -5,12 +5,12 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	1.10.0
+Version:	1.10.4
 Release:	1
 License:	GPL v2+
 Group:		Networking
 Source0:	https://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar.xz
-# Source0-md5:	92d25176d0cc9d588ca29700b33c7d98
+# Source0-md5:	f82d82b4b19482f8112fcfa60566721b
 URL:		https://www.freedesktop.org/wiki/Software/ModemManager
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11.2
@@ -22,7 +22,7 @@ BuildRequires:	glibc-localedb-all
 BuildRequires:	gobject-introspection-devel >= 0.9.6
 BuildRequires:	gtk-doc >= 1.0
 BuildRequires:	libmbim-devel >= 1.18.0
-BuildRequires:	libqmi-devel >= 1.22.0
+BuildRequires:	libqmi-devel >= 1.22.4
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	pkgconfig
 BuildRequires:	polkit-devel >= 0.97
@@ -38,7 +38,7 @@ Requires:	%{name}-libs = %{version}-%{release}
 Requires:	glib2 >= 1:2.36.0
 Requires:	hicolor-icon-theme
 Requires:	libmbim >= 1.18.0
-Requires:	libqmi >= 1.22.0
+Requires:	libqmi >= 1.22.4
 Requires:	polkit >= 0.97
 Requires:	udev-glib >= 1:147
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -210,6 +210,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-wavecom.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-x22x.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-zte.so
+%dir %{_datadir}/%{name}
+%{_datadir}/%{name}/mm-dell-dw5821e-carrier-mapping.conf
 /lib/udev/rules.d/77-mm-cinterion-port-types.rules
 /lib/udev/rules.d/77-mm-dell-port-types.rules
 /lib/udev/rules.d/77-mm-ericsson-mbm.rules
@@ -220,6 +222,7 @@ rm -rf $RPM_BUILD_ROOT
 /lib/udev/rules.d/77-mm-mtk-port-types.rules
 /lib/udev/rules.d/77-mm-nokia-port-types.rules
 /lib/udev/rules.d/77-mm-pcmcia-device-blacklist.rules
+/lib/udev/rules.d/77-mm-quectel-port-types.rules
 /lib/udev/rules.d/77-mm-sierra.rules
 /lib/udev/rules.d/77-mm-simtech-port-types.rules
 /lib/udev/rules.d/77-mm-telit-port-types.rules
@@ -249,7 +252,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.xml
 %{_datadir}/dbus-1/system-services/org.freedesktop.ModemManager1.service
 %{_datadir}/polkit-1/actions/org.freedesktop.ModemManager1.policy
-%{_iconsdir}/hicolor/*/apps/*.png
+%{_iconsdir}/hicolor/22x22/apps/ModemManager.png
 %{_mandir}/man1/mmcli.1*
 %{_mandir}/man8/ModemManager.8*
 %{systemdunitdir}/ModemManager.service
