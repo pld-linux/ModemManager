@@ -5,12 +5,12 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	1.12.0
+Version:	1.12.2
 Release:	1
 License:	GPL v2+
 Group:		Networking
 Source0:	https://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar.xz
-# Source0-md5:	2d982820ff35c8369b50a0c55f92f5a2
+# Source0-md5:	d723c22b0da7fa570d66bc7ad0f59cd6
 URL:		https://www.freedesktop.org/wiki/Software/ModemManager
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11.2
@@ -212,6 +212,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-wavecom.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-x22x.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-zte.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-shared-icera.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-shared-novatel.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-shared-option.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-shared-sierra.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-shared-telit.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-shared-xmm.so
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/mm-dell-dw5821e-carrier-mapping.conf
 /lib/udev/rules.d/77-mm-cinterion-port-types.rules
