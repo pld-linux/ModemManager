@@ -286,10 +286,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/mm-glib.pc
 %{_datadir}/gir-1.0/ModemManager-1.0.gir
 
+%if %{with apidocs}
 %files apidocs
 %defattr(644,root,root,755)
 %{_gtkdocdir}/ModemManager
 %{_gtkdocdir}/libmm-glib
+%endif
 
 %files -n vala-libmm-glib
 %defattr(644,root,root,755)
