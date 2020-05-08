@@ -5,12 +5,12 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	1.12.4
+Version:	1.12.8
 Release:	1
 License:	GPL v2+
 Group:		Networking
 Source0:	https://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar.xz
-# Source0-md5:	22280110d75c87a89786a317aa9cee04
+# Source0-md5:	16aaa46ff64e9256a9cda3714845f1bb
 URL:		https://www.freedesktop.org/wiki/Software/ModemManager
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11.2
@@ -57,6 +57,9 @@ Summary(pl.UTF-8):	Dopełnianie składni poleceń ModemManagera
 Group:		Applications/Shells
 Requires:	%{name} = %{version}-%{release}
 Requires:	bash-completion >= 2.0
+%if "%{_rpmversion}" >= "4.6"
+BuildArch:	noarch
+%endif
 
 %description -n bash-completion-ModemManager
 Bash completion for ModemManager commands (mmcli).
@@ -95,7 +98,7 @@ Summary:	API documentation for ModemManager
 Summary(pl.UTF-8):	Dokumentacja API ModemManagera
 Group:		Documentation
 Requires:	gtk-doc-common
-%if "%{_rpmversion}" >= "5"
+%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
 %endif
 
@@ -111,7 +114,7 @@ Summary(pl.UTF-8):	API libmm-glib dla języka Vala
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	vala >= 2:0.18.0
-%if "%{_rpmversion}" >= "5"
+%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
 %endif
 
