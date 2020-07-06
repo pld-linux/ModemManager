@@ -5,24 +5,25 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	1.12.10
+Version:	1.14.0
 Release:	1
 License:	GPL v2+
 Group:		Networking
 Source0:	https://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar.xz
-# Source0-md5:	35cf22849d243cd2a026caf9851959d3
+# Source0-md5:	e8bea68b0cce6fe19cc71237aa2915c1
 URL:		https://www.freedesktop.org/wiki/Software/ModemManager
 BuildRequires:	autoconf >= 2.63
+BuildRequires:	autoconf-archive >= 2017.03.21
 BuildRequires:	automake >= 1:1.11.2
 BuildRequires:	gettext-tools >= 0.19.8
-BuildRequires:	glib2-devel >= 1:2.36.0
+BuildRequires:	glib2-devel >= 1:2.48.0
 %if %(locale -a | grep -q '^C\.utf8$'; echo $?)
 BuildRequires:	glibc-localedb-all
 %endif
 BuildRequires:	gobject-introspection-devel >= 0.9.6
 BuildRequires:	gtk-doc >= 1.0
-BuildRequires:	libmbim-devel >= 1.18.0
-BuildRequires:	libqmi-devel >= 1.24.0
+BuildRequires:	libmbim-devel >= 1.24.0
+BuildRequires:	libqmi-devel >= 1.26.0
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	pkgconfig
 BuildRequires:	polkit-devel >= 0.97
@@ -35,10 +36,10 @@ BuildRequires:	vala >= 2:0.18.0
 BuildRequires:	xz
 Requires(post,preun,postun):	systemd-units
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	glib2 >= 1:2.36.0
+Requires:	glib2 >= 1:2.48.0
 Requires:	hicolor-icon-theme
-Requires:	libmbim >= 1.18.0
-Requires:	libqmi >= 1.24.0
+Requires:	libmbim >= 1.24.0
+Requires:	libqmi >= 1.26.0
 Requires:	polkit >= 0.97
 Requires:	udev-glib >= 1:147
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -71,7 +72,7 @@ Dopełnianie składni poleceń ModemManagera (mmcli).
 Summary:	Library to control and monitor the ModemManager
 Summary(pl.UTF-8):	Biblioteka do sterowania i monitorowania ModemManagera
 Group:		Libraries
-Requires:	glib2 >= 1:2.36.0
+Requires:	glib2 >= 1:2.48.0
 
 %description libs
 This package provides library to control and monitor the ModemManager.
@@ -85,7 +86,7 @@ Summary:	Header file defining ModemManager D-Bus interface
 Summary(pl.UTF-8):	Plik nagłówkowy opisujący interfejs D-Bus ModemManagera
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.36.0
+Requires:	glib2-devel >= 1:2.48.0
 
 %description devel
 Header file defining ModemManager D-Bus interface.
@@ -182,11 +183,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/ModemManager
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-altair-lte.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-anydata.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-broadmobi.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-cinterion.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-dell.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-dlink.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-ericsson-mbm.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-fibocom.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-foxconn.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-generic.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-haier.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-huawei.so
@@ -215,6 +218,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-wavecom.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-x22x.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-zte.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-shared-foxconn.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-icera.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-novatel.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-option.so
@@ -222,12 +226,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-telit.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-xmm.so
 %dir %{_datadir}/%{name}
-%{_datadir}/%{name}/mm-dell-dw5821e-carrier-mapping.conf
+%{_datadir}/%{name}/mm-foxconn-t77w968-carrier-mapping.conf
+/lib/udev/rules.d/77-mm-broadmobi-port-types.rules
 /lib/udev/rules.d/77-mm-cinterion-port-types.rules
 /lib/udev/rules.d/77-mm-dell-port-types.rules
 /lib/udev/rules.d/77-mm-dlink-port-types.rules
 /lib/udev/rules.d/77-mm-ericsson-mbm.rules
 /lib/udev/rules.d/77-mm-fibocom-port-types.rules
+/lib/udev/rules.d/77-mm-foxconn-port-types.rules
 /lib/udev/rules.d/77-mm-haier-port-types.rules
 /lib/udev/rules.d/77-mm-huawei-net-port-types.rules
 /lib/udev/rules.d/77-mm-longcheer-port-types.rules
