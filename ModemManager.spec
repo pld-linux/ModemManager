@@ -58,7 +58,7 @@ Summary(pl.UTF-8):	Dopełnianie składni poleceń ModemManagera
 Group:		Applications/Shells
 Requires:	%{name} = %{version}-%{release}
 Requires:	bash-completion >= 2.0
-%{?noarchpackage}
+BuildArch:	noarch
 
 %description -n bash-completion-ModemManager
 Bash completion for ModemManager commands (mmcli).
@@ -97,7 +97,7 @@ Summary:	API documentation for ModemManager
 Summary(pl.UTF-8):	Dokumentacja API ModemManagera
 Group:		Documentation
 Requires:	gtk-doc-common
-%{?noarchpackage}
+BuildArch:	noarch
 
 %description apidocs
 API documentation for ModemManager.
@@ -111,7 +111,7 @@ Summary(pl.UTF-8):	API libmm-glib dla języka Vala
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	vala >= 2:0.18.0
-%{?noarchpackage}
+BuildArch:	noarch
 
 %description -n vala-libmm-glib
 libmm-glib API for Vala language.
