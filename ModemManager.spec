@@ -5,12 +5,12 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	1.14.8
+Version:	1.16.2
 Release:	1
 License:	GPL v2+
 Group:		Networking
 Source0:	https://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar.xz
-# Source0-md5:	138762a976a654d244744963d2250372
+# Source0-md5:	83c5fc0bf65b8f321532b61b5f2b0b51
 URL:		https://www.freedesktop.org/wiki/Software/ModemManager
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	autoconf-archive >= 2017.03.21
@@ -23,11 +23,12 @@ BuildRequires:	glibc-localedb-all
 BuildRequires:	gobject-introspection-devel >= 0.9.6
 BuildRequires:	gtk-doc >= 1.0
 BuildRequires:	libmbim-devel >= 1.24.0
-BuildRequires:	libqmi-devel >= 1.26.0
+BuildRequires:	libqmi-devel >= 1.28.0
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	pkgconfig
 BuildRequires:	polkit-devel >= 0.97
 BuildRequires:	ppp-plugin-devel >= 3:2.4.5
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.752
 BuildRequires:	systemd-devel >= 1:209
 BuildRequires:	tar >= 1:1.22
@@ -39,7 +40,7 @@ Requires:	%{name}-libs = %{version}-%{release}
 Requires:	glib2 >= 1:2.48.0
 Requires:	hicolor-icon-theme
 Requires:	libmbim >= 1.24.0
-Requires:	libqmi >= 1.26.0
+Requires:	libqmi >= 1.28.0
 Requires:	polkit >= 0.97
 Requires:	udev-glib >= 1:147
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -185,6 +186,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-fibocom.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-foxconn.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-generic.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-gosuncn.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-haier.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-huawei.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-iridium.so
@@ -228,6 +230,7 @@ rm -rf $RPM_BUILD_ROOT
 /lib/udev/rules.d/77-mm-ericsson-mbm.rules
 /lib/udev/rules.d/77-mm-fibocom-port-types.rules
 /lib/udev/rules.d/77-mm-foxconn-port-types.rules
+/lib/udev/rules.d/77-mm-gosuncn-port-types.rules
 /lib/udev/rules.d/77-mm-haier-port-types.rules
 /lib/udev/rules.d/77-mm-huawei-net-port-types.rules
 /lib/udev/rules.d/77-mm-longcheer-port-types.rules
