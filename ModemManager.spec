@@ -5,25 +5,26 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	1.16.10
+Version:	1.18.2
 Release:	1
 License:	GPL v2+
 Group:		Networking
 Source0:	https://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar.xz
-# Source0-md5:	88a9fd4373fedd5c9faa83d82a195767
+# Source0-md5:	378f3bb36809f917b890d0bc31a06b4e
 URL:		https://www.freedesktop.org/wiki/Software/ModemManager
 BuildRequires:	autoconf >= 2.63
-BuildRequires:	autoconf-archive >= 2017.03.21
 BuildRequires:	automake >= 1:1.11.2
 BuildRequires:	gettext-tools >= 0.19.8
-BuildRequires:	glib2-devel >= 1:2.48.0
+BuildRequires:	glib2-devel >= 1:2.56.0
 %if %(locale -a | grep -q '^C\.utf8$'; echo $?)
 BuildRequires:	glibc-localedb-all
 %endif
 BuildRequires:	gobject-introspection-devel >= 0.9.6
 BuildRequires:	gtk-doc >= 1.0
-BuildRequires:	libmbim-devel >= 1.24.0
-BuildRequires:	libqmi-devel >= 1.28.6
+BuildRequires:	libgudev-devel >= 232
+BuildRequires:	libmbim-devel >= 1.26.0
+BuildRequires:	libqmi-devel >= 1.30.2
+BuildRequires:	libqrtr-glib-devel >= 1.0.0
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	pkgconfig
 BuildRequires:	polkit-devel >= 0.97
@@ -32,17 +33,17 @@ BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.752
 BuildRequires:	systemd-devel >= 1:209
 BuildRequires:	tar >= 1:1.22
-BuildRequires:	udev-glib-devel >= 1:147
 BuildRequires:	vala >= 2:0.18.0
 BuildRequires:	xz
 Requires(post,preun,postun):	systemd-units
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	glib2 >= 1:2.48.0
+Requires:	glib2 >= 1:2.56.0
 Requires:	hicolor-icon-theme
-Requires:	libmbim >= 1.24.0
-Requires:	libqmi >= 1.28.6
+Requires:	libgudev >= 232
+Requires:	libmbim >= 1.26.0
+Requires:	libqmi >= 1.30.2
+Requires:	libqrtr-glib >= 1.0.0
 Requires:	polkit >= 0.97
-Requires:	udev-glib >= 1:147
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -71,7 +72,7 @@ Dopełnianie składni poleceń ModemManagera (mmcli).
 Summary:	Library to control and monitor the ModemManager
 Summary(pl.UTF-8):	Biblioteka do sterowania i monitorowania ModemManagera
 Group:		Libraries
-Requires:	glib2 >= 1:2.48.0
+Requires:	glib2 >= 1:2.56.0
 
 %description libs
 This package provides library to control and monitor the ModemManager.
@@ -85,7 +86,7 @@ Summary:	Header file defining ModemManager D-Bus interface
 Summary(pl.UTF-8):	Plik nagłówkowy opisujący interfejs D-Bus ModemManagera
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.48.0
+Requires:	glib2-devel >= 1:2.56.0
 
 %description devel
 Header file defining ModemManager D-Bus interface.
@@ -222,7 +223,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-telit.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-xmm.so
 %dir %{_datadir}/%{name}
-%{_datadir}/%{name}/mm-foxconn-carrier-mapping.conf
+%{_datadir}/%{name}/mm-foxconn-t77w968-carrier-mapping.conf
+%{_datadir}/%{name}/mm-foxconn-t99w175-carrier-mapping.conf
 /lib/udev/rules.d/77-mm-broadmobi-port-types.rules
 /lib/udev/rules.d/77-mm-cinterion-port-types.rules
 /lib/udev/rules.d/77-mm-dell-port-types.rules
@@ -236,15 +238,12 @@ rm -rf $RPM_BUILD_ROOT
 /lib/udev/rules.d/77-mm-longcheer-port-types.rules
 /lib/udev/rules.d/77-mm-mtk-port-types.rules
 /lib/udev/rules.d/77-mm-nokia-port-types.rules
-/lib/udev/rules.d/77-mm-pcmcia-device-blacklist.rules
 /lib/udev/rules.d/77-mm-quectel-port-types.rules
 /lib/udev/rules.d/77-mm-sierra.rules
 /lib/udev/rules.d/77-mm-simtech-port-types.rules
 /lib/udev/rules.d/77-mm-telit-port-types.rules
 /lib/udev/rules.d/77-mm-tplink-port-types.rules
 /lib/udev/rules.d/77-mm-ublox-port-types.rules
-/lib/udev/rules.d/77-mm-usb-device-blacklist.rules
-/lib/udev/rules.d/77-mm-usb-serial-adapters-greylist.rules
 /lib/udev/rules.d/77-mm-x22x-port-types.rules
 /lib/udev/rules.d/77-mm-zte-port-types.rules
 /lib/udev/rules.d/80-mm-candidate.rules
@@ -254,6 +253,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Firmware.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Location.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Messaging.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Modem3gpp.ProfileManager.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Modem3gpp.Ussd.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Modem3gpp.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.ModemCdma.xml
