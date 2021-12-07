@@ -5,12 +5,12 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	1.18.2
+Version:	1.18.4
 Release:	1
 License:	GPL v2+
 Group:		Networking
 Source0:	https://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar.xz
-# Source0-md5:	378f3bb36809f917b890d0bc31a06b4e
+# Source0-md5:	007d3be35dd2c633b31370c0d3d1b06a
 URL:		https://www.freedesktop.org/wiki/Software/ModemManager
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11.2
@@ -177,6 +177,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/mmcli
 %attr(755,root,root) %{_sbindir}/ModemManager
 %dir %{_libdir}/ModemManager
+%dir %{_libdir}/ModemManager/fcc-unlock.d
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-altair-lte.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-anydata.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-broadmobi.so
@@ -202,6 +203,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-novatel-lte.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-option.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-pantech.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-qcom-soc.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-quectel.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-samsung.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-sierra.so
@@ -223,6 +225,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-telit.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-xmm.so
 %dir %{_datadir}/%{name}
+%{_datadir}/%{name}/fcc-unlock.available.d
 %{_datadir}/%{name}/mm-foxconn-t77w968-carrier-mapping.conf
 %{_datadir}/%{name}/mm-foxconn-t99w175-carrier-mapping.conf
 /lib/udev/rules.d/77-mm-broadmobi-port-types.rules
@@ -238,6 +241,7 @@ rm -rf $RPM_BUILD_ROOT
 /lib/udev/rules.d/77-mm-longcheer-port-types.rules
 /lib/udev/rules.d/77-mm-mtk-port-types.rules
 /lib/udev/rules.d/77-mm-nokia-port-types.rules
+/lib/udev/rules.d/77-mm-qcom-soc.rules
 /lib/udev/rules.d/77-mm-quectel-port-types.rules
 /lib/udev/rules.d/77-mm-sierra.rules
 /lib/udev/rules.d/77-mm-simtech-port-types.rules
@@ -248,6 +252,8 @@ rm -rf $RPM_BUILD_ROOT
 /lib/udev/rules.d/77-mm-zte-port-types.rules
 /lib/udev/rules.d/80-mm-candidate.rules
 %config(noreplace) %verify(not md5 mtime size) /etc/dbus-1/system.d/org.freedesktop.ModemManager1.conf
+%dir %{_sysconfdir}/ModemManager
+%dir %{_sysconfdir}/ModemManager/fcc-unlock.d
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Bearer.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Call.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Firmware.xml
