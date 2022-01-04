@@ -159,7 +159,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 %update_icon_cache hicolor
-%systemd_service_enable ModemManager.service
+%systemd_post ModemManager.service
 
 %preun
 %systemd_preun ModemManager.service
