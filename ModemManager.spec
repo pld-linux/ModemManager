@@ -5,12 +5,12 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	1.18.4
+Version:	1.18.10
 Release:	1
 License:	GPL v2+
 Group:		Networking
 Source0:	https://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar.xz
-# Source0-md5:	007d3be35dd2c633b31370c0d3d1b06a
+# Source0-md5:	e3ed043771fdee6f2078b9e51ca5e56a
 URL:		https://www.freedesktop.org/wiki/Software/ModemManager
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11.2
@@ -23,7 +23,7 @@ BuildRequires:	gobject-introspection-devel >= 0.9.6
 BuildRequires:	gtk-doc >= 1.0
 BuildRequires:	libgudev-devel >= 232
 BuildRequires:	libmbim-devel >= 1.26.0
-BuildRequires:	libqmi-devel >= 1.30.2
+BuildRequires:	libqmi-devel >= 1.30.8
 BuildRequires:	libqrtr-glib-devel >= 1.0.0
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	pkgconfig
@@ -41,7 +41,7 @@ Requires:	glib2 >= 1:2.56.0
 Requires:	hicolor-icon-theme
 Requires:	libgudev >= 232
 Requires:	libmbim >= 1.26.0
-Requires:	libqmi >= 1.30.2
+Requires:	libqmi >= 1.30.8
 Requires:	libqrtr-glib >= 1.0.0
 Requires:	polkit >= 0.97
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -225,9 +225,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-telit.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-xmm.so
 %dir %{_datadir}/%{name}
+%{_datadir}/%{name}/connection.available.d
 %{_datadir}/%{name}/fcc-unlock.available.d
 %{_datadir}/%{name}/mm-foxconn-t77w968-carrier-mapping.conf
-%{_datadir}/%{name}/mm-foxconn-t99w175-carrier-mapping.conf
 /lib/udev/rules.d/77-mm-broadmobi-port-types.rules
 /lib/udev/rules.d/77-mm-cinterion-port-types.rules
 /lib/udev/rules.d/77-mm-dell-port-types.rules
@@ -238,6 +238,7 @@ rm -rf $RPM_BUILD_ROOT
 /lib/udev/rules.d/77-mm-gosuncn-port-types.rules
 /lib/udev/rules.d/77-mm-haier-port-types.rules
 /lib/udev/rules.d/77-mm-huawei-net-port-types.rules
+/lib/udev/rules.d/77-mm-linktop-port-types.rules
 /lib/udev/rules.d/77-mm-longcheer-port-types.rules
 /lib/udev/rules.d/77-mm-mtk-port-types.rules
 /lib/udev/rules.d/77-mm-nokia-port-types.rules
