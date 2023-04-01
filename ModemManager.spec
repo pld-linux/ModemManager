@@ -5,15 +5,15 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	1.18.12
+Version:	1.20.6
 Release:	1
 License:	GPL v2+
 Group:		Networking
-Source0:	https://www.freedesktop.org/software/ModemManager/%{name}-%{version}.tar.xz
-# Source0-md5:	9f014dfc59f1bd8bc230bb2c2974d104
+#Source0Download: https://gitlab.freedesktop.org/mobile-broadband/ModemManager/-/tags
+Source0:	https://gitlab.freedesktop.org/mobile-broadband/ModemManager/-/archive/%{version}/%{name}-%{version}.tar.bz2
+# Source0-md5:	1c4554dd34a5ae7d02e7cb36cc9e2ec4
 URL:		https://www.freedesktop.org/wiki/Software/ModemManager
-BuildRequires:	autoconf >= 2.63
-BuildRequires:	automake >= 1:1.11.2
+BuildRequires:	dbus-devel >= 1
 BuildRequires:	gettext-tools >= 0.19.8
 BuildRequires:	glib2-devel >= 1:2.56.0
 %if %(locale -a | grep -q '^C\.utf8$'; echo $?)
@@ -22,26 +22,25 @@ BuildRequires:	glibc-localedb-all
 BuildRequires:	gobject-introspection-devel >= 0.9.6
 BuildRequires:	gtk-doc >= 1.0
 BuildRequires:	libgudev-devel >= 232
-BuildRequires:	libmbim-devel >= 1.26.0
-BuildRequires:	libqmi-devel >= 1.30.8
+BuildRequires:	libmbim-devel >= 1.28.0
+BuildRequires:	libqmi-devel >= 1.32.0
 BuildRequires:	libqrtr-glib-devel >= 1.0.0
-BuildRequires:	libtool >= 2:2.2
+BuildRequires:	meson >= 0.53.0
+BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	polkit-devel >= 0.97
 BuildRequires:	ppp-plugin-devel >= 3:2.4.5
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.752
 BuildRequires:	systemd-devel >= 1:209
-BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala >= 2:0.18.0
-BuildRequires:	xz
 Requires(post,preun,postun):	systemd-units
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	glib2 >= 1:2.56.0
 Requires:	hicolor-icon-theme
 Requires:	libgudev >= 232
-Requires:	libmbim >= 1.26.0
-Requires:	libqmi >= 1.30.8
+Requires:	libmbim >= 1.28.0
+Requires:	libqmi >= 1.32.0
 Requires:	libqrtr-glib >= 1.0.0
 Requires:	polkit >= 0.97
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -125,32 +124,18 @@ API libmm-glib dla języka Vala.
 %setup -q
 
 %build
-%{__libtoolize}
-%{__aclocal} -I m4
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-%configure \
-	%{__enable_disable apidocs gtk-doc} \
-	--disable-silent-rules \
-	--disable-static \
-	--enable-more-warnings \
-	--enable-vala \
-	--with-html-dir=%{_gtkdocdir} \
-	--with-polkit \
-	--with-suspend-resume=systemd
+%meson build \
+	--default-library=shared \
+	%{?with_apidocs:-Dgtk_doc=true} \
+	-Dsystemdsystemunitdir=%{systemdunitdir} \
+	-Dvapi=true
 
-LC_ALL=C.UTF-8 \
-%{__make}
+%ninja_build -C build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
-
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/*.la
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/*.la
+%ninja_install -C build
 
 %find_lang %{name}
 
@@ -173,7 +158,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog NEWS README
+%doc AUTHORS NEWS README TODO
 %attr(755,root,root) %{_bindir}/mmcli
 %attr(755,root,root) %{_sbindir}/ModemManager
 %dir %{_libdir}/ModemManager
@@ -191,6 +176,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-gosuncn.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-haier.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-huawei.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-intel.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-iridium.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-linktop.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-longcheer.so
@@ -217,6 +203,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-wavecom.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-x22x.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-zte.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-shared-fibocom.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-foxconn.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-icera.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-novatel.so
@@ -265,6 +252,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Modem3gpp.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.ModemCdma.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Oma.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Sar.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Simple.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Signal.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Time.xml
