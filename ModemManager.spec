@@ -5,13 +5,13 @@
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	1.20.6
+Version:	1.22.0
 Release:	1
 License:	GPL v2+
 Group:		Networking
 #Source0Download: https://gitlab.freedesktop.org/mobile-broadband/ModemManager/-/tags
 Source0:	https://gitlab.freedesktop.org/mobile-broadband/ModemManager/-/archive/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	1c4554dd34a5ae7d02e7cb36cc9e2ec4
+# Source0-md5:	e967a452eb6f505a645df8c0582a17b7
 URL:		https://www.freedesktop.org/wiki/Software/ModemManager
 BuildRequires:	dbus-devel >= 1
 BuildRequires:	gettext-tools >= 0.19.8
@@ -22,8 +22,8 @@ BuildRequires:	glibc-localedb-all
 BuildRequires:	gobject-introspection-devel >= 0.9.6
 BuildRequires:	gtk-doc >= 1.0
 BuildRequires:	libgudev-devel >= 232
-BuildRequires:	libmbim-devel >= 1.28.0
-BuildRequires:	libqmi-devel >= 1.32.0
+BuildRequires:	libmbim-devel >= 1.30.0
+BuildRequires:	libqmi-devel >= 1.34.0
 BuildRequires:	libqrtr-glib-devel >= 1.0.0
 BuildRequires:	meson >= 0.53.0
 BuildRequires:	ninja >= 1.5
@@ -39,8 +39,8 @@ Requires:	%{name}-libs = %{version}-%{release}
 Requires:	glib2 >= 1:2.56.0
 Requires:	hicolor-icon-theme
 Requires:	libgudev >= 232
-Requires:	libmbim >= 1.28.0
-Requires:	libqmi >= 1.32.0
+Requires:	libmbim >= 1.30.0
+Requires:	libqmi >= 1.34.0
 Requires:	libqrtr-glib >= 1.0.0
 Requires:	polkit >= 0.97
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -158,7 +158,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS NEWS README TODO
+%doc AUTHORS NEWS README
 %attr(755,root,root) %{_bindir}/mmcli
 %attr(755,root,root) %{_sbindir}/ModemManager
 %dir %{_libdir}/ModemManager
