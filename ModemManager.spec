@@ -1,17 +1,18 @@
 #
 # Conditional build:
-%bcond_without	apidocs		# don't build API documentation
+%bcond_without	apidocs		# API documentation
 
 Summary:	Mobile broadband modem management service
 Summary(pl.UTF-8):	Usługa zarządzająca szerokopasmowymi modemami komórkowymi
 Name:		ModemManager
-Version:	1.22.0
+Version:	1.24.0
 Release:	1
 License:	GPL v2+
 Group:		Networking
 #Source0Download: https://gitlab.freedesktop.org/mobile-broadband/ModemManager/-/tags
 Source0:	https://gitlab.freedesktop.org/mobile-broadband/ModemManager/-/archive/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	e967a452eb6f505a645df8c0582a17b7
+# Source0-md5:	2e5413fe0d494b16df0039764f372975
+Patch0:		%{name}-gtkdoc.patch
 URL:		https://www.freedesktop.org/wiki/Software/ModemManager
 BuildRequires:	dbus-devel >= 1
 BuildRequires:	gettext-tools >= 0.19.8
@@ -22,8 +23,8 @@ BuildRequires:	glibc-localedb-all
 BuildRequires:	gobject-introspection-devel >= 0.9.6
 BuildRequires:	gtk-doc >= 1.0
 BuildRequires:	libgudev-devel >= 232
-BuildRequires:	libmbim-devel >= 1.30.0
-BuildRequires:	libqmi-devel >= 1.34.0
+BuildRequires:	libmbim-devel >= 1.32.0
+BuildRequires:	libqmi-devel >= 1.36.0
 BuildRequires:	libqrtr-glib-devel >= 1.0.0
 BuildRequires:	meson >= 0.53.0
 BuildRequires:	ninja >= 1.5
@@ -31,7 +32,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	polkit-devel >= 0.97
 BuildRequires:	ppp-plugin-devel >= 3:2.4.5
 BuildRequires:	rpm-build >= 4.6
-BuildRequires:	rpmbuild(macros) >= 1.752
+BuildRequires:	rpmbuild(macros) >= 2.042
 BuildRequires:	systemd-devel >= 1:209
 BuildRequires:	vala >= 2:0.18.0
 Requires(post,preun,postun):	systemd-units
@@ -39,8 +40,8 @@ Requires:	%{name}-libs = %{version}-%{release}
 Requires:	glib2 >= 1:2.56.0
 Requires:	hicolor-icon-theme
 Requires:	libgudev >= 232
-Requires:	libmbim >= 1.30.0
-Requires:	libqmi >= 1.34.0
+Requires:	libmbim >= 1.32.0
+Requires:	libqmi >= 1.36.0
 Requires:	libqrtr-glib >= 1.0.0
 Requires:	polkit >= 0.97
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -122,20 +123,65 @@ API libmm-glib dla języka Vala.
 
 %prep
 %setup -q
+%patch -P0 -p1
 
 %build
-%meson build \
+%meson \
 	--default-library=shared \
 	%{?with_apidocs:-Dgtk_doc=true} \
+	-Dplugin_generic=enabled \
+	-Dplugin_altair_lte=enabled \
+	-Dplugin_anydata=enabled \
+	-Dplugin_broadmobi=enabled \
+	-Dplugin_cellient=enabled \
+	-Dplugin_cinterion=enabled \
+	-Dplugin_dell=enabled \
+	-Dplugin_dlink=enabled \
+	-Dplugin_fibocom=enabled \
+	-Dplugin_foxconn=enabled \
+	-Dplugin_gosuncn=enabled \
+	-Dplugin_haier=enabled \
+	-Dplugin_huawei=enabled \
+	-Dplugin_intel=enabled \
+	-Dplugin_iridium=enabled \
+	-Dplugin_linktop=enabled \
+	-Dplugin_longcheer=enabled \
+	-Dplugin_mbm=enabled \
+	-Dplugin_motorola=enabled \
+	-Dplugin_mtk=enabled \
+	-Dplugin_mtk_legacy=enabled \
+	-Dplugin_netprisma=enabled \
+	-Dplugin_nokia=enabled \
+	-Dplugin_nokia_icera=enabled \
+	-Dplugin_novatel=enabled \
+	-Dplugin_novatel_lte=enabled \
+	-Dplugin_option=enabled \
+	-Dplugin_option_hso=enabled \
+	-Dplugin_pantech=enabled \
+	-Dplugin_qcom_soc=enabled \
+	-Dplugin_quectel=enabled \
+	-Dplugin_rolling=enabled \
+	-Dplugin_samsung=enabled \
+	-Dplugin_sierra=enabled \
+	-Dplugin_sierra_legacy=enabled \
+	-Dplugin_simtech=enabled \
+	-Dplugin_telit=enabled \
+	-Dplugin_thuraya=enabled \
+	-Dplugin_tplink=enabled \
+	-Dplugin_ublox=enabled \
+	-Dplugin_via=enabled \
+	-Dplugin_wavecom=enabled \
+	-Dplugin_x22x=enabled \
+	-Dplugin_zte=enabled \
 	-Dsystemdsystemunitdir=%{systemdunitdir} \
 	-Dvapi=true
 
-%ninja_build -C build
+%meson_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%ninja_install -C build
+%meson_install
 
 %find_lang %{name}
 
@@ -158,7 +204,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS NEWS README
+%doc AUTHORS NEWS README.md
 %attr(755,root,root) %{_bindir}/mmcli
 %attr(755,root,root) %{_sbindir}/ModemManager
 %dir %{_libdir}/ModemManager
@@ -166,6 +212,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-altair-lte.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-anydata.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-broadmobi.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-cellient.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-cinterion.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-dell.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-dlink.so
@@ -182,7 +229,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-longcheer.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-option-hso.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-mtk.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-mtk-legacy.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-motorola.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-netprisma.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-nokia-icera.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-nokia.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-novatel.so
@@ -191,6 +240,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-pantech.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-qcom-soc.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-quectel.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-rolling.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-samsung.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-sierra.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-plugin-sierra-legacy.so
@@ -206,16 +256,20 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-fibocom.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-foxconn.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-icera.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-shared-mtk.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-novatel.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-option.so
+%attr(755,root,root) %{_libdir}/%{name}/libmm-shared-quectel.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-sierra.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-telit.so
 %attr(755,root,root) %{_libdir}/%{name}/libmm-shared-xmm.so
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/connection.available.d
 %{_datadir}/%{name}/fcc-unlock.available.d
+%{_datadir}/%{name}/modem-setup.available.d
 %{_datadir}/%{name}/mm-foxconn-t77w968-carrier-mapping.conf
 /lib/udev/rules.d/77-mm-broadmobi-port-types.rules
+/lib/udev/rules.d/77-mm-cellient.rules
 /lib/udev/rules.d/77-mm-cinterion-port-types.rules
 /lib/udev/rules.d/77-mm-dell-port-types.rules
 /lib/udev/rules.d/77-mm-dlink-port-types.rules
@@ -227,10 +281,12 @@ rm -rf $RPM_BUILD_ROOT
 /lib/udev/rules.d/77-mm-huawei-net-port-types.rules
 /lib/udev/rules.d/77-mm-linktop-port-types.rules
 /lib/udev/rules.d/77-mm-longcheer-port-types.rules
-/lib/udev/rules.d/77-mm-mtk-port-types.rules
+/lib/udev/rules.d/77-mm-mtk-legacy-port-types.rules
+/lib/udev/rules.d/77-mm-netprisma-port-types.rules
 /lib/udev/rules.d/77-mm-nokia-port-types.rules
 /lib/udev/rules.d/77-mm-qcom-soc.rules
 /lib/udev/rules.d/77-mm-quectel-port-types.rules
+/lib/udev/rules.d/77-mm-rolling-port-types.rules
 /lib/udev/rules.d/77-mm-sierra.rules
 /lib/udev/rules.d/77-mm-simtech-port-types.rules
 /lib/udev/rules.d/77-mm-telit-port-types.rules
@@ -244,6 +300,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/ModemManager/fcc-unlock.d
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Bearer.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Call.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Cbm.xml
+%{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.CellBroadcast.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Firmware.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Location.xml
 %{_datadir}/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Messaging.xml

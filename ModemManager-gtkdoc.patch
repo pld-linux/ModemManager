@@ -1,0 +1,11 @@
+--- ModemManager-1.24.0/docs/reference/api/ModemManager-dbus-reference.xml.orig	2025-04-10 03:30:25.000000000 +0200
++++ ModemManager-1.24.0/docs/reference/api/ModemManager-dbus-reference.xml	2025-04-12 18:51:40.201176878 +0200
+@@ -189,7 +189,7 @@
+     <xi:include href="../../../../libmm-glib/generated/mm-gdbus-doc-org.freedesktop.ModemManager1.Call.xml"/>
+   </chapter>
+ 
+-  <chapter id="ref-dbus-object-call">
++  <chapter id="ref-dbus-object-cbm">
+     <title>The <literal>/org/freedesktop/ModemManager/CBM</literal> objects</title>
+     <para>
+       Modems implementing the
